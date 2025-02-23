@@ -1,47 +1,77 @@
 <template>
-    <aside class="sidebar">
-      <h5 class="text-center">Ligas Esportivas</h5>
-      <input type="text" class="form-control mb-3" placeholder="Buscar liga..." v-model="searchQuery" />
-  
-      <div class="row">
-        <div v-for="liga in filteredLigas" :key="liga.id">
-          {{ liga.nome }}
-        </div>
-      </div>
-    </aside>
-  </template>
-  
-  <script setup>
-  import { ref, computed } from 'vue';
+  <aside class="sidebar">
+    <h5 class="text-center">Ligas Esportivas</h5>
+    <input
+      type="text"
+      class="form-control mb-3"
+      placeholder="Buscar liga..."
+      v-model="searchQuery"
+    />
 
-  const ligas = ref([
-    { id: 1, nome: 'Premier League' },
-    { id: 2, nome: 'La Liga' },
-    { id: 3, nome: 'Bundesliga' },
-    { id: 4, nome: 'Serie A' },
-    { id: 5, nome: 'Ligue 1' },
-    { id: 6, nome: 'MLS' },
-    { id: 7, nome: 'Brasileirão' },
-    { id: 8, nome: 'Copa Libertadores' },
-  ]);
-  
-  const searchQuery = ref('');
-  const filteredLigas = computed(() =>
-    ligas.value.filter(liga =>
-      liga.nome.toLowerCase().includes(searchQuery.value.toLowerCase())
-    )
-  );
-  </script>
-  
-  <style scoped>
-  .sidebar {
-    width: 20%;
-    height: 100vh;
-    overflow-y: auto;
-    background: #f8f9fa;
-    padding: 15px;
-    position: fixed;
-    left: 0;
-    top: 56px;
+    <div class="row">
+      <div 
+        v-for="liga in filteredLigas" 
+        :key="liga.id" 
+        @click="selectLeague(liga.code)" 
+        class="mt-2 clickable"
+      >
+        {{ liga.name }}
+      </div>
+    </div>
+  </aside>
+</template>
+<script setup>
+import { ref, computed, onMounted } from "vue";
+import axios from "axios";
+import { useRouter } from 'vue-router';
+
+const ligas = ref([]);
+const searchQuery = ref("");
+
+const filteredLigas = computed(() =>
+  ligas.value.filter((liga) =>
+    liga.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+  )
+);
+
+const fetchLigas = async () => {
+  try {
+    const response = await axios.get("http://127.0.0.1:8000/leagues");
+    ligas.value = response.data;
+  } catch (error) {
+    console.error("Erro ao buscar ligas:", error);
   }
-  </style>  
+};
+
+const router = useRouter();
+
+const selectLeague = (leagueCode) => {
+  router.push({ name: 'League', params: { leagueCode } });
+};
+
+onMounted(fetchLigas);
+</script>
+
+<style scoped>
+.sidebar {
+  width: 20%;
+  height: 100vh;
+  overflow-y: auto;
+  background: #f8f9fa;
+  padding: 15px;
+  position: fixed;
+  left: 0;
+  top: 56px;
+}
+
+.clickable {
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+  transition: background 0.2s ease-in-out;
+}
+
+.clickable:hover {
+  background: #e0e0e0;
+}
+</style>
