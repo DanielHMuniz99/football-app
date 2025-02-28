@@ -21,57 +21,54 @@
   </aside>
 </template>
 <script setup>
-import { ref, computed, onMounted } from "vue";
-import axios from "axios";
-import { useRouter } from 'vue-router';
+  import { ref, computed, onMounted } from "vue";
+  import axios from "axios";
+  import { useRouter } from 'vue-router';
 
-const ligas = ref([]);
-const searchQuery = ref("");
+  const ligas = ref([]);
+  const searchQuery = ref("");
 
-const filteredLigas = computed(() =>
-  ligas.value.filter((liga) =>
-    liga.name.toLowerCase().includes(searchQuery.value.toLowerCase())
-  )
-);
+  const filteredLigas = computed(() =>
+    ligas.value.filter((liga) =>
+      liga.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+    )
+  );
 
-const fetchLigas = async () => {
-  try {
-    const response = await axios.get("http://127.0.0.1:8000/leagues");
-    ligas.value = response.data;
-  } catch (error) {
-    console.error("Erro ao buscar ligas:", error);
-  }
-};
+  const fetchLigas = async () => {
+    try {
+      const response = await axios.get("http://127.0.0.1:8000/leagues");
+      ligas.value = response.data;
+    } catch (error) {
+      console.error("Erro ao buscar ligas:", error);
+    }
+  };
 
-const router = useRouter();
+  const router = useRouter();
 
-const selectLeague = (leagueCode) => {
-  router.push({ name: 'League', params: { leagueCode } });
-};
+  const selectLeague = (leagueCode) => {
+    router.push({ name: 'League', params: { leagueCode } });
+  };
 
-onMounted(fetchLigas);
+  onMounted(fetchLigas);
 </script>
 
 <style scoped>
-.sidebar {
-  width: 20%;
-  height: 100vh;
-  overflow-y: auto;
-  background: #f8f9fa;
-  padding: 15px;
-  position: fixed;
-  left: 0;
-  top: 56px;
-}
+  .sidebar {
+    overflow-y: auto;
+    background: #f8f9fa;
+    padding: 15px;
+    left: 0;
+    top: 56px;
+  }
 
-.clickable {
-  cursor: pointer;
-  padding: 8px;
-  border-radius: 4px;
-  transition: background 0.2s ease-in-out;
-}
+  .clickable {
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 4px;
+    transition: background 0.2s ease-in-out;
+  }
 
-.clickable:hover {
-  background: #e0e0e0;
-}
+  .clickable:hover {
+    background: #e0e0e0;
+  }
 </style>

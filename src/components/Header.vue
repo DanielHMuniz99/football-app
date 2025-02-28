@@ -1,5 +1,5 @@
 <template>
-  <header class="navbar fixed-top">
+  <header class="navbar">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">Meu Site</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -23,11 +23,7 @@
 </template>
 
 <style scoped>
-body {
-  padding-top: 56px;
-}
-
-.navbar {
+  .navbar {
     background-color: #005440;
-}
+  }
 </style>
