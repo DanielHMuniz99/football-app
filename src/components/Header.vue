@@ -1,7 +1,7 @@
 <template>
   <header class="navbar">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Meu Site</a>
+      <a class="navbar-brand" href="#">Sports API</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -21,9 +21,3 @@
     </div>
   </header>
 </template>
-
-<style scoped>
-  .navbar {
-    background-color: #005440;
-  }
-</style>

@@ -51,25 +51,3 @@
 
   onMounted(fetchLigas);
 </script>
-
-<style scoped>
-  .sidebar {
-    overflow-y: auto;
-    background: #f8f9fa;
-    padding: 15px;
-    left: 0;
-    top: 56px;
-    width: 100%;
-  }
-
-  .clickable {
-    cursor: pointer;
-    padding: 8px;
-    border-radius: 4px;
-    transition: background 0.2s ease-in-out;
-  }
-
-  .clickable:hover {
-    background: #e0e0e0;
-  }
-</style>
