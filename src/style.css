@@ -23,6 +23,7 @@ a:hover {
 }
 
 body {
+  overflow-x: hidden;  
   /* margin: 0;
   display: flex;
   place-items: center;
@@ -76,4 +77,15 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+.full-height {
+  height: calc(100vh - 56px); /* Ajuste conforme a altura do header */
+  overflow-y: auto; /* Rolagem vertical */
+  overflow-x: hidden; /* Impede rolagem horizontal */
+}
+
+.no-overflow-x {
+  width: 100%; /* Garante que o conteúdo não ultrapasse o container */
+  overflow-x: hidden; /* Remove rolagem horizontal */
 }

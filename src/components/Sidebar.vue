@@ -59,6 +59,7 @@
     padding: 15px;
     left: 0;
     top: 56px;
+    width: 100%;
   }
 
   .clickable {

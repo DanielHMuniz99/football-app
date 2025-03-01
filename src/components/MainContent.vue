@@ -3,13 +3,14 @@
     <h3 v-if="selectedLeague">Liga Selecionada: {{ selectedLeague }}</h3>
   </div>
 
-  <div class="col-12">
+  <div class="col-2">
     <select class="form-select">
-      <option value="ao-vivo">Jogos ao Vivo</option>
-      <option value="anteriores">Resultados Anteriores</option>
-      <option value="proximos">Próximos Jogos</option>
+      <option value="ongoing">Jogos ao Vivo</option>
+      <option value="results">Resultados</option>
+      <option value="upcoming">Próximos Jogos</option>
     </select>
   </div>
+  <hr>
   <Match v-for="jogo in jogosFiltrados" :key="jogo.id" :jogo="jogo" />
 </template>
 
@@ -18,13 +19,14 @@
   import axios from "axios";
   import { useRoute } from 'vue-router';
   import Match from './Match.vue';
+  import moment from 'moment';
 
   const route = useRoute();
   const selectedLeague = ref(route.params.leagueCode || null);
 
   const jogos = ref([]);
 
-  const filtroSelecionado = ref("proximos");
+  const filtroSelecionado = ref("results");
 
   const jogosFiltrados = computed(() => {
     return jogos.value.filter((jogo) => jogo.status === filtroSelecionado.value);
@@ -32,14 +34,18 @@
 
   const fetchGames = async (leagueCode) => {
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/leagues/${leagueCode}/matches/upcoming`);
+      const response = await axios.get(`http://127.0.0.1:8000/leagues/${leagueCode}/matches/results`);
 
       jogos.value = response.data.matches.map(match => ({
         id: match.id,
         time1: match.homeTeam.shortName,
         time2: match.awayTeam.shortName,
-        data: new Date(match.utcDate).toLocaleDateString("pt-BR"),
-        status: match.status === "TIMED" ? "proximos" : "ao-vivo",
+        score: {
+          home: match.score.fullTime.home,
+          away: match.score.fullTime.away
+        },
+        utcDate: new Date(match.utcDate).toLocaleDateString("pt-BR"),
+        status: match.status === "TIMED" ? "upcoming" : "results",
       }));
       
       console.log("Jogos atualizados:", jogos.value);
