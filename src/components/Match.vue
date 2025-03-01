@@ -1,6 +1,6 @@
 <template>
   <div class="row py-2 align-items-center">
-    <div class="col-2 d-flex align-items-center">
+    <div class="col-2 align-items-center">
       {{ jogo.utcDate }}
     </div>
     <div class="col-8">
