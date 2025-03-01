@@ -5,9 +5,9 @@
 
   <div class="col-2">
     <select class="form-select">
-      <option value="ongoing">Jogos ao Vivo</option>
-      <option value="results">Resultados</option>
-      <option value="upcoming">Próximos Jogos</option>
+      <option value="ongoing">{{ t('live_games') }}</option>
+      <option value="results">{{ t('results') }}</option>
+      <option value="upcoming">{{ t('next_games') }}</option>
     </select>
   </div>
   <hr>
@@ -21,7 +21,9 @@
   import Match from './Match.vue';
   import moment from 'moment';
   import { inject } from 'vue';
+  import { useI18n } from 'vue-i18n';
 
+  const { t, locale } = useI18n();
   const config = inject('config');
   const route = useRoute();
   const selectedLeague = ref(route.params.leagueCode || null);
@@ -46,8 +48,6 @@
         utcDate: new Date(match.utcDate).toLocaleDateString("pt-BR"),
         status: match.status === "TIMED" ? "upcoming" : "results",
       }));
-      
-      // console.log("Jogos atualizados:", jogos.value);
     } catch (error) {
       console.error("Erro ao buscar jogos:", error);
     }
