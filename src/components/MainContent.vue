@@ -20,12 +20,12 @@
   import { useRoute } from 'vue-router';
   import Match from './Match.vue';
   import moment from 'moment';
+  import { inject } from 'vue';
 
+  const config = inject('config');
   const route = useRoute();
   const selectedLeague = ref(route.params.leagueCode || null);
-
   const jogos = ref([]);
-
   const filtroSelecionado = ref("results");
 
   const jogosFiltrados = computed(() => {
@@ -34,8 +34,7 @@
 
   const fetchGames = async (leagueCode) => {
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/leagues/${leagueCode}/matches/results`);
-
+      const response = await axios.get(`${config.apiUrl}/leagues/${leagueCode}/matches/results`);
       jogos.value = response.data.matches.map(match => ({
         id: match.id,
         time1: match.homeTeam.shortName,
@@ -48,7 +47,7 @@
         status: match.status === "TIMED" ? "upcoming" : "results",
       }));
       
-      console.log("Jogos atualizados:", jogos.value);
+      // console.log("Jogos atualizados:", jogos.value);
     } catch (error) {
       console.error("Erro ao buscar jogos:", error);
     }

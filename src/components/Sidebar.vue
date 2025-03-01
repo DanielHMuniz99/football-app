@@ -24,9 +24,12 @@
   import { ref, computed, onMounted } from "vue";
   import axios from "axios";
   import { useRouter } from 'vue-router';
+  import { inject } from 'vue';
 
+  const config = inject('config');
   const ligas = ref([]);
   const searchQuery = ref("");
+  const router = useRouter();
 
   const filteredLigas = computed(() =>
     ligas.value.filter((liga) =>
@@ -36,14 +39,12 @@
 
   const fetchLigas = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/leagues");
+      const response = await axios.get(`${config.apiUrl}/leagues`);
       ligas.value = response.data;
     } catch (error) {
       console.error("Erro ao buscar ligas:", error);
     }
   };
-
-  const router = useRouter();
 
   const selectLeague = (leagueCode) => {
     router.push({ name: 'League', params: { leagueCode } });
